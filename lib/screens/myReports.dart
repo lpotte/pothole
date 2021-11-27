@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:karma_flutterversion/model/points.dart';
 import 'package:karma_flutterversion/providers/authProvider.dart';
 import 'package:karma_flutterversion/screens/Reports.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +39,7 @@ class Report extends State<MyReports> {
               if (_page) {
                 llenarfavs();
                 return ListView(children: 
-                  favorsList.map(_buildItem).toList(),
+                  markersList.map(_buildItem).toList(),
                 );
               } else {
                 return FavorDetails(f);
@@ -48,17 +50,16 @@ class Report extends State<MyReports> {
     );
   }
 
-  Widget _buildItem(favor fav) {
+  Widget _buildItem(Marker mark) {
   return Card (
     child: ListTile(
-      title: new Text(fav.tipo),
-      subtitle: new Text('Valor: ${fav.who} \n Origen: ${fav.towho}'),
+      title: new Text(mark.infoWindow.title),
+      subtitle: new Text('Ubicación: ${mark.position} \n Description: ${mark.infoWindow.snippet}'),
       leading: new Icon(Icons.map),
       onTap: (){
         setState(() {
           _page = !_page;
         });
-        f = fav;
       },
     )
   );

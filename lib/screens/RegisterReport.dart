@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:karma_flutterversion/model/points.dart';
 import 'package:karma_flutterversion/providers/authProvider.dart';
 import 'package:provider/provider.dart';
 
-class NewReport extends StatelessWidget {
+class NewReport extends StatefulWidget {
+  @override
+  NewReports createState() => NewReports();
+}
+
+class NewReports extends State<NewReport> {
   final _formKey = GlobalKey<FormState>();
+  final tittle = TextEditingController();
+  final description = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -34,23 +42,7 @@ class NewReport extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 32),
                   //Text("Digite su correo electronico"),
                   child: TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.power_input),
-                      hintText: 'Descripción',
-                    ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                    },
-                  ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 32),
-                  //Text("Digite su correo electronico"),
-                  child: TextFormField(
+                    initialValue: lastMapPosition.toString(),
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.gps_fixed),
@@ -66,12 +58,31 @@ class NewReport extends StatelessWidget {
                 Spacer(),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 32),
+                  //Text("Digite su correo electronico"),
+                  child: TextFormField(
+                    controller: tittle,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.power_input),
+                      hintText: 'Nombre Reporte',
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please enter some text';
+                      }
+                    },
+                  ),
+                ),
+                Spacer(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 32),
                   //Text("Digite su contraseña"),
                   child: TextFormField(
+                    controller: description,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       prefixIcon: Icon(Icons.list),
-                      hintText: ' Cargar imagnen',
+                      hintText: 'Desciption',
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -90,6 +101,7 @@ class NewReport extends StatelessWidget {
                     color: Colors.orangeAccent,
                     onPressed: () {
                       model.setLogged(3);
+                      onAddMarkerButtonPress(tittle.text, description.text);
                     },
                   ),
                 ),
